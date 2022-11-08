@@ -4,6 +4,7 @@ import { CSSReset } from "../src/components/CSSReset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
 import Banner from "../src/components/Banner";
+import FavoriteList from "../src/components/FavoriteList";
 
 const HomePage = () => {
   const estilosDaHomePage = {
@@ -21,6 +22,7 @@ const HomePage = () => {
         <Banner imgSrc={config.bannerImgSrc} />
         <Header />
         <Timeline playlists={config.playlists} />
+        <FavoriteList favorites={config.favorites}></FavoriteList>
       </div>
     </>
   );

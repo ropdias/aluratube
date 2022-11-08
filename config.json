@@ -3,6 +3,28 @@
   "job": "Software Engineer",
   "github": "ropdias",
   "bannerImgSrc": "https://source.unsplash.com/zV6FS2v_yAs/1920x1280",
+  "favorites": [
+    {
+      "id": "1",
+      "github": "brunodorea",
+      "vercelLink": "https://alura-imersao-react-cnkavgqgd-bh-tec.vercel.app/"
+    },
+    {
+      "id": "2",
+      "github": "sennshi",
+      "vercelLink": "https://github.com/sennshi/aluratube"
+    },
+    {
+      "id": "3",
+      "github": "FabianoRaiser",
+      "vercelLink": "https://imersao-alura-react5.vercel.app/"
+    },
+    {
+      "id": "4",
+      "github": "sucodelarangela",
+      "vercelLink": "https://aluratube-next-js.vercel.app/"
+    }
+  ],
   "playlists": {
     "World of Warcraft": [
       {

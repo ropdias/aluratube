@@ -1,4 +1,3 @@
-import config from "../../config.json";
 import styled from "styled-components";
 
 const StyledBanner = styled.div`
