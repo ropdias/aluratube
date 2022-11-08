@@ -1,7 +1,8 @@
+import { useState } from "react";
 import config from "../config.json";
 import styled from "styled-components";
 import { CSSReset } from "../src/components/CSSReset";
-import Menu from "../src/components/Menu";
+import Menu from "../src/components/Menu"; // We are using index.js in the folder Menu
 import { StyledTimeline } from "../src/components/Timeline";
 import Banner from "../src/components/Banner";
 import FavoriteList from "../src/components/FavoriteList";
@@ -14,14 +15,15 @@ const HomePage = () => {
     // backgroundColor: "red",
   };
 
+  const [searchValue, setSearchValue] = useState("");
+
   return (
     <>
       <CSSReset />
       <div style={estilosDaHomePage}>
-        <Menu />
-        <Banner imgSrc={config.bannerImgSrc} />
+        <Menu searchValue={searchValue} setSearchValue={setSearchValue} />
         <Header />
-        <Timeline playlists={config.playlists} />
+        <Timeline playlists={config.playlists} searchValue={searchValue} />
         <FavoriteList favorites={config.favorites}></FavoriteList>
       </div>
     </>
@@ -37,7 +39,6 @@ const StyledHeader = styled.div`
     border-radius: 50%;
   }
   .user-info {
-    margin-top: 10px;
     display: flex;
     align-items: center;
     width: 100%;
@@ -49,6 +50,7 @@ const StyledHeader = styled.div`
 const Header = (props) => {
   return (
     <StyledHeader>
+      <Banner imgSrc={config.bannerImgSrc} />
       {/* <img src="banner" /> */}
       <section className="user-info">
         <img src={`http://github.com/${config.github}.png`} />
@@ -61,7 +63,7 @@ const Header = (props) => {
   );
 };
 
-const Timeline = (props) => {
+const Timeline = ({ searchValue, ...props }) => {
   // The Object.keys() method returns an array of a given object's own enumerable property names,
   // iterated in the same order that a normal loop would.
   const playlistNames = Object.keys(props.playlists);
@@ -79,17 +81,23 @@ const Timeline = (props) => {
       {playlistNames.map((playlistName) => {
         const videos = props.playlists[playlistName];
         return (
-          <section>
+          <section key={playlistName}>
             <h2>{playlistName}</h2>
             <div>
-              {videos.map((video) => {
-                return (
-                  <a href={video.url}>
-                    <img src={video.thumb} />
-                    <span>{video.title}</span>
-                  </a>
-                );
-              })}
+              {videos
+                .filter((video) => {
+                  const titleNormalized = video.title.toLowerCase();
+                  const searchValueNormalized = searchValue.toLowerCase();
+                  return titleNormalized.includes(searchValueNormalized);
+                })
+                .map((video) => {
+                  return (
+                    <a key={video.url} href={video.url}>
+                      <img src={video.thumb} />
+                      <span>{video.title}</span>
+                    </a>
+                  );
+                })}
             </div>
           </section>
         );
