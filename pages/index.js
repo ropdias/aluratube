@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { CSSReset } from "../src/components/CSSReset";
 import Menu from "../src/components/Menu";
 import { StyledTimeline } from "../src/components/Timeline";
+import Banner from "../src/components/Banner";
 
 const HomePage = () => {
   const estilosDaHomePage = {
@@ -17,6 +18,7 @@ const HomePage = () => {
       <CSSReset />
       <div style={estilosDaHomePage}>
         <Menu />
+        <Banner imgSrc={config.bannerImgSrc} />
         <Header />
         <Timeline playlists={config.playlists} />
       </div>
@@ -33,7 +35,7 @@ const StyledHeader = styled.div`
     border-radius: 50%;
   }
   .user-info {
-    margin-top: 50px;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     width: 100%;
