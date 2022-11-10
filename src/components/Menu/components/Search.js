@@ -33,7 +33,7 @@ const StyledSearch = styled.div`
   }
 `;
 
-const Search = ({searchValue, setSearchValue}) => {
+const Search = ({ searchValue, setSearchValue }) => {
   // const valorDaBusca = valorDoFiltro;
   // const setValorDaBusca = setValorDoFiltro;
 
