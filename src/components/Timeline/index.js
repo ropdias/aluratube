@@ -85,7 +85,13 @@ const Timeline = ({ searchValue, ...props }) => {
                     return (
                       <Link
                         key={video.url}
-                        href={{ pathname: "/video", query: { v: video_id } }}
+                        href={{
+                          pathname: "/video",
+                          query: {
+                            v: video_id,
+                            title: video.title,
+                          },
+                        }}
                       >
                         <a>
                           <img src={video.thumb} />
