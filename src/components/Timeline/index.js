@@ -33,8 +33,21 @@ const StyledTimeline = styled.div`
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       grid-auto-flow: column;
       grid-auto-columns: minmax(200px, 1fr);
-      overflow-x: scroll;
+      overflow-x: auto;
       scroll-snap-type: x mandatory;
+      ::-webkit-scrollbar {
+        width: 12px;
+      }
+
+      ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px ${({ theme }) => `rgba(${theme.scrollRGBA[0]}, ${theme.scrollRGBA[1]}, ${theme.scrollRGBA[2]}, 0.3)` || "rgba(0, 0, 0, 0.3)"};
+        border-radius: 10px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        box-shadow: inset 0 0 6px ${({ theme }) => `rgba(${theme.scrollRGBA[0]}, ${theme.scrollRGBA[1]}, ${theme.scrollRGBA[2]}, 0.9)` || "rgba(0, 0, 0, 0.9)"};
+      }
       a {
         scroll-snap-align: start;
         span {
