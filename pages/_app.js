@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { ThemeProvider } from "styled-components";
 import { CSSReset } from "../src/components/CSSReset";
+import RegisterVideo from "../src/components/RegisterVideo";
 import ColorModeProvider, { ColorModeContext } from "../src/context/ColorMode";
 
 const theme = {
@@ -31,13 +32,14 @@ const ProviderWrapper = (props) => {
   return <ColorModeProvider>{props.children}</ColorModeProvider>;
 };
 
-function MyApp({ Component, pageProps }) {
+const Root = ({ Component, pageProps }) => {
   const colorModeCtx = useContext(ColorModeContext);
 
   return (
     <ThemeProvider theme={theme[colorModeCtx.mode]}>
       <CSSReset />
       <Component {...pageProps} />
+      <RegisterVideo />
     </ThemeProvider>
   );
 }
@@ -45,7 +47,7 @@ function MyApp({ Component, pageProps }) {
 const _App = (props) => {
   return (
     <ProviderWrapper>
-      <MyApp {...props} />
+      <Root {...props} />
     </ProviderWrapper>
   );
 };

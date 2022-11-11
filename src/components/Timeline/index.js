@@ -77,10 +77,12 @@ const Timeline = ({ searchValue, ...props }) => {
                     return titleNormalized.includes(searchValueNormalized);
                   })
                   .map((video) => {
-                    let video_id = video.url.split("v=")[1];
-                    let ampersandPosition = video_id.indexOf("&");
-                    if (ampersandPosition != -1) {
-                      video_id = video_id.substring(0, ampersandPosition);
+                    let video_id;
+                    const regExp =
+                      /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                    const match = video.url.match(regExp);
+                    if (match && match[2].length == 11) {
+                      video_id = match[2];
                     }
                     return (
                       <Link
@@ -98,10 +100,6 @@ const Timeline = ({ searchValue, ...props }) => {
                           <span>{video.title}</span>
                         </a>
                       </Link>
-                      // <a key={video.url} href={video.url}>
-                      //   <img src={video.thumb} />
-                      //   <span>{video.title}</span>
-                      // </a>
                     );
                   })}
               </div>
