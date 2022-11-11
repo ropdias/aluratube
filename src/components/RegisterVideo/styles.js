@@ -78,4 +78,10 @@ export const StyledRegisterVideo = styled.div`
     height: auto;
     margin-bottom: 10px;
   }
+  p {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
 `;

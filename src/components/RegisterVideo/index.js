@@ -1,65 +1,53 @@
 import { useState } from "react";
+import useInput from "../../hooks/use-input";
 import { StyledRegisterVideo } from "./styles";
-
-// Custom Hook
-const useForm = (props) => {
-  const [values, setValues] = useState(props.initialValues);
-
-  const valueChangeHandler = (event) => {
-    const value = event.target.value;
-    const name = event.target.name;
-    setValues((prevValues) => {
-      return {
-        ...prevValues,
-        [name]: value, // ["title"] = "teste" ---> { title: "teste" }
-      };
-    });
-  };
-
-  const clearForm = () => {
-    setValues({ title: "", url: "" });
-  };
-
-  return {
-    values,
-    valueChangeHandler: valueChangeHandler,
-    clearForm: clearForm,
-  };
-};
 
 // When you have the error "Form submission canceled because the form is not connected"
 // is because every button inside a form is of type submit, so you have to change the type to just "button"
 const RegisterVideo = () => {
-  const formRegisterVideo = useForm({ initialValues: { title: "", url: "" } });
   const [formIsVisible, setFormIsVisible] = useState(false);
+  const isNotEmpty = (value) => value.trim() !== "";
+  const hasMinLength = (value) => value.length > 5;
+  const isValidYouTubeUrl = (value) => {
+    const regExp =
+      /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = value.match(regExp);
+    if (match && match[2].length == 11) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const {
+    value: titleValue,
+    isValid: titleIsValid,
+    hasError: titleHasError,
+    valueChangeHandler: titleChangeHandler,
+    inputBlurHandler: titleBlurHandler,
+    reset: resetTitle,
+  } = useInput([hasMinLength]);
+
+  const {
+    value: urlValue,
+    isValid: urlIsValid,
+    hasError: urlHasError,
+    valueChangeHandler: urlChangeHandler,
+    inputBlurHandler: urlBlurHandler,
+    reset: resetUrl,
+  } = useInput([isNotEmpty, isValidYouTubeUrl]);
 
   let video_id;
   let thumb;
   const regExp =
     /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-  const match = formRegisterVideo.values.url.match(regExp);
+  const match = urlValue.match(regExp);
   if (match && match[2].length == 11) {
     video_id = match[2];
     thumb = `https://img.youtube.com/vi/${video_id}/hqdefault.jpg`;
   }
 
-  const isNotEmpty = (value) => value.trim() !== "";
-  const hasMinLength = (value, length) => value.length > length;
-
-  let titleIsValid = false;
-  let urlIsValid = false;
   let formIsValid = false;
-
-  if (
-    isNotEmpty(formRegisterVideo.values.title) &&
-    hasMinLength(formRegisterVideo.values.title, 5)
-  ) {
-    titleIsValid = true;
-  }
-
-  if (video_id) {
-    urlIsValid = true;
-  }
 
   if (titleIsValid && urlIsValid) {
     formIsValid = true;
@@ -72,8 +60,11 @@ const RegisterVideo = () => {
       return;
     }
 
+    console.log({ title: titleValue, url: urlValue, thumb: thumb });
+
     setFormIsVisible(false);
-    formRegisterVideo.clearForm();
+    resetTitle();
+    resetUrl();
   };
 
   return (
@@ -94,17 +85,19 @@ const RegisterVideo = () => {
             <input
               placeholder="Título do video"
               name="title"
-              value={formRegisterVideo.values.title}
-              onChange={formRegisterVideo.valueChangeHandler}
+              value={titleValue}
+              onChange={titleChangeHandler}
+              onBlur={titleBlurHandler}
             />
-            {!titleIsValid && <p>Please enter a valid title</p>}
+            {titleHasError && <p>Please enter a valid title</p>}
             <input
               placeholder="URL"
               name="url"
-              value={formRegisterVideo.values.url}
-              onChange={formRegisterVideo.valueChangeHandler}
+              value={urlValue}
+              onChange={urlChangeHandler}
+              onBlur={urlBlurHandler}
             />
-            {!urlIsValid && <p>Please enter a valid url</p>}
+            {urlHasError && <p>Please enter a valid url</p>}
             {thumb && <img src={thumb} />}
             <button type="submit" disabled={!formIsValid}>
               Cadastrar
