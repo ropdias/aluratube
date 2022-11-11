@@ -88,6 +88,11 @@ const Timeline = ({ searchValue, ...props }) => {
                     const titleNormalized = video.title.toLowerCase();
                     const searchValueNormalized = searchValue.toLowerCase();
                     return titleNormalized.includes(searchValueNormalized);
+                  }).length > 0 ? videos
+                  .filter((video) => {
+                    const titleNormalized = video.title.toLowerCase();
+                    const searchValueNormalized = searchValue.toLowerCase();
+                    return titleNormalized.includes(searchValueNormalized);
                   })
                   .map((video) => {
                     let video_id;
@@ -114,7 +119,7 @@ const Timeline = ({ searchValue, ...props }) => {
                         </a>
                       </Link>
                     );
-                  })}
+                  }) : "Nenhum video encontrado"}
               </div>
             </section>
           );
