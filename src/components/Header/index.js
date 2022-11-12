@@ -24,7 +24,7 @@ const Header = (props) => {
       <Banner imgSrc={config.bannerImgSrc} />
       {/* <img src="banner" /> */}
       <section className="user-info">
-        <img src={`http://github.com/${config.github}.png`} />
+        <img src={`https://github.com/${config.github}.png`} />
         <div>
           <h2>{config.name}</h2>
           <p>{config.job}</p>

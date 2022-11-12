@@ -26,7 +26,7 @@ const FavoriteItem = (props) => {
   return (
     <StyledFavoriteItem>
       <a href={props.vercelLink}>
-        <img src={`http://github.com/${props.github}.png`} />
+        <img src={`https://github.com/${props.github}.png`} />
         <span>@{props.github}</span>
       </a>
     </StyledFavoriteItem>
