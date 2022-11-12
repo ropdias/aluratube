@@ -5,6 +5,7 @@ import DarkModeSwitch from "./components/DarkModeSwitch";
 
 const StyledMenu = styled.header`
   display: flex;
+  z-index: 1;
   flex-direction: row;
   height: 56px;
   justify-content: space-between;
