@@ -23,11 +23,10 @@ const StyledTimeline = styled.div`
   }
   section {
     width: 100%;
-    padding: 0;
     overflow: hidden;
     padding: 16px;
     div {
-      width: calc(100vw - 16px * 4);
+      width: calc(100vw - 16px * 4 - 20px);
       display: grid;
       grid-gap: 16px;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -40,13 +39,19 @@ const StyledTimeline = styled.div`
       }
 
       ::-webkit-scrollbar-track {
-        box-shadow: inset 0 0 6px ${({ theme }) => `rgba(${theme.scrollRGBA[0]}, ${theme.scrollRGBA[1]}, ${theme.scrollRGBA[2]}, 0.3)` || "rgba(0, 0, 0, 0.3)"};
+        box-shadow: inset 0 0 6px
+          ${({ theme }) =>
+            `rgba(${theme.scrollRGBA[0]}, ${theme.scrollRGBA[1]}, ${theme.scrollRGBA[2]}, 0.3)` ||
+            "rgba(0, 0, 0, 0.3)"};
         border-radius: 10px;
       }
 
       ::-webkit-scrollbar-thumb {
         border-radius: 10px;
-        box-shadow: inset 0 0 6px ${({ theme }) => `rgba(${theme.scrollRGBA[0]}, ${theme.scrollRGBA[1]}, ${theme.scrollRGBA[2]}, 0.9)` || "rgba(0, 0, 0, 0.9)"};
+        box-shadow: inset 0 0 6px
+          ${({ theme }) =>
+            `rgba(${theme.scrollRGBA[0]}, ${theme.scrollRGBA[1]}, ${theme.scrollRGBA[2]}, 0.9)` ||
+            "rgba(0, 0, 0, 0.9)"};
       }
       a {
         scroll-snap-align: start;
@@ -83,43 +88,44 @@ const Timeline = ({ searchValue, ...props }) => {
             <section key={playlistName}>
               <h2>{playlistName}</h2>
               <div>
-                {videos
-                  .filter((video) => {
-                    const titleNormalized = video.title.toLowerCase();
-                    const searchValueNormalized = searchValue.toLowerCase();
-                    return titleNormalized.includes(searchValueNormalized);
-                  }).length > 0 ? videos
-                  .filter((video) => {
-                    const titleNormalized = video.title.toLowerCase();
-                    const searchValueNormalized = searchValue.toLowerCase();
-                    return titleNormalized.includes(searchValueNormalized);
-                  })
-                  .map((video) => {
-                    let video_id;
-                    const regExp =
-                      /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-                    const match = video.url.match(regExp);
-                    if (match && match[2].length == 11) {
-                      video_id = match[2];
-                    }
-                    return (
-                      <Link
-                        key={video.url}
-                        href={{
-                          pathname: "/video",
-                          query: {
-                            v: video_id,
-                            title: video.title,
-                          },
-                        }}
-                      >
-                        <a>
-                          <img src={video.thumb} />
-                          <span>{video.title}</span>
-                        </a>
-                      </Link>
-                    );
-                  }) : "Nenhum video encontrado"}
+                {videos.filter((video) => {
+                  const titleNormalized = video.title.toLowerCase();
+                  const searchValueNormalized = searchValue.toLowerCase();
+                  return titleNormalized.includes(searchValueNormalized);
+                }).length > 0
+                  ? videos
+                      .filter((video) => {
+                        const titleNormalized = video.title.toLowerCase();
+                        const searchValueNormalized = searchValue.toLowerCase();
+                        return titleNormalized.includes(searchValueNormalized);
+                      })
+                      .map((video) => {
+                        let video_id;
+                        const regExp =
+                          /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                        const match = video.url.match(regExp);
+                        if (match && match[2].length == 11) {
+                          video_id = match[2];
+                        }
+                        return (
+                          <Link
+                            key={video.url}
+                            href={{
+                              pathname: "/video",
+                              query: {
+                                v: video_id,
+                                title: video.title,
+                              },
+                            }}
+                          >
+                            <a>
+                              <img src={video.thumb} />
+                              <span>{video.title}</span>
+                            </a>
+                          </Link>
+                        );
+                      })
+                  : "Nenhum video encontrado"}
               </div>
             </section>
           );
