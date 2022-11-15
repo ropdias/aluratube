@@ -10,13 +10,11 @@ export const videoService = () => {
     getAllVideos() {
       return supabase.from("video").select("*").order("id");
     },
-    insertVideo(titleValue, urlValue, thumbValue, playlistValue) {
-      return supabase.from("video").insert({
-        title: titleValue,
-        url: urlValue,
-        thumb: thumbValue,
-        playlist: playlistValue,
-      });
+    insertVideo(video) {
+      return supabase.from("video").insert(video);
+    },
+    newChannel(channel) {
+      return supabase.channel(channel);
     },
   };
 };

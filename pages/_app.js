@@ -3,6 +3,7 @@ import { ThemeProvider } from "styled-components";
 import { CSSReset } from "../src/components/CSSReset";
 import RegisterVideo from "../src/components/RegisterVideo";
 import ColorModeProvider, { ColorModeContext } from "../src/context/ColorMode";
+import PlaylistProvider from "../src/context/Playlists";
 
 const theme = {
   light: {
@@ -31,7 +32,11 @@ const theme = {
 
 // Here we are defining a ProviderWrapper to make sure that all providers that need to run before MyApp will execute
 const ProviderWrapper = (props) => {
-  return <ColorModeProvider>{props.children}</ColorModeProvider>;
+  return (
+    <PlaylistProvider>
+        <ColorModeProvider>{props.children}</ColorModeProvider>
+    </PlaylistProvider>
+  );
 };
 
 const Root = ({ Component, pageProps }) => {

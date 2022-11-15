@@ -71,8 +71,15 @@ const RegisterVideo = () => {
       return;
     }
 
+    let newVideo = {
+      title: titleValue,
+      url: urlValue,
+      thumb: thumbValue,
+      playlist: playlistValue.toLowerCase(),
+    };
+
     service
-      .insertVideo(titleValue, urlValue, thumbValue, playlistValue)
+      .insertVideo(newVideo)
       .then(() => {
         setFormIsVisible(false);
         resetTitle();

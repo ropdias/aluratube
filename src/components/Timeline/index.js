@@ -1,7 +1,10 @@
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
 import FavoriteList from "./components/FavoriteList";
 import config from "../../../config.json";
 import Link from "next/link";
+import { PlaylistContext } from "../../context/Playlists";
+import { videoService } from "../../services/videoService";
 
 const StyledTimeline = styled.div`
   flex: 1;
@@ -66,10 +69,25 @@ const StyledTimeline = styled.div`
   }
 `;
 
-const Timeline = ({ searchValue, ...props }) => {
+const Timeline = ({ searchValue }) => {
+  const service = videoService();
+  const playlistsCtx = useContext(PlaylistContext);
   // The Object.keys() method returns an array of a given object's own enumerable property names,
   // iterated in the same order that a normal loop would.
-  const playlistNames = Object.keys(props.playlists);
+  const playlistNames = Object.keys(playlistsCtx.playlists);
+
+  useEffect(() => {
+    service
+      .newChannel("public:video")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "video" },
+        (payload) => {
+          playlistsCtx.inserOneVideo(payload.new);
+        }
+      )
+      .subscribe();
+  }, []);
 
   // You can't use statements in React like if/for inside JSX
   // So to use Conditional Rendering you should use:
@@ -83,7 +101,7 @@ const Timeline = ({ searchValue, ...props }) => {
     <>
       <StyledTimeline>
         {playlistNames.map((playlistName) => {
-          const videos = props.playlists[playlistName];
+          const videos = playlistsCtx.playlists[playlistName];
           return (
             <section key={playlistName}>
               <h2>{playlistName}</h2>
@@ -109,7 +127,7 @@ const Timeline = ({ searchValue, ...props }) => {
                         }
                         return (
                           <Link
-                            key={video.url}
+                            key={video.id}
                             href={{
                               pathname: "/video",
                               query: {
