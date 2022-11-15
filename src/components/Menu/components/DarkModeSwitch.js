@@ -15,6 +15,7 @@ const StyledSwitch = styled.div`
   position: relative;
   label {
     width: 50px;
+    cursor: pointer;
   }
   span {
     display: inline-flex;
