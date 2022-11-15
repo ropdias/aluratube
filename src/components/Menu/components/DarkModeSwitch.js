@@ -34,7 +34,7 @@ const StyledSwitch = styled.div`
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 0;
+    left: 24px;
     transition: 0.3s;
     cursor: pointer;
   }
@@ -42,7 +42,7 @@ const StyledSwitch = styled.div`
     display: none;
   }
   input[type="checkbox"]:checked + label:before {
-    transform: translateX(100%);
+    transform: translateX(-100%);
   }
 `;
 
